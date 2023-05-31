@@ -1,0 +1,6 @@
+alignscore>=0.1
+ctc_score==0.1.3
+BLEURT==0.0.2
+bert_score==0.3.11
+rake_nltk==1.0.6
+summa==1.2.0
