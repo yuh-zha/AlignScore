@@ -1,5 +1,6 @@
 # AlignScore
 The repository for ALIGNScore, a metric for factual consistency evaluation.
+
 # Usage
 ```python
 from alignscore import alignscore
@@ -7,6 +8,15 @@ from alignscore import alignscore
 scorer = alignscore(model='roberta-base', batch_size=32, device='cuda:0', ckpt_path:path_to_checkpoint, evaluation_mode='nli_sp')
 score = scorer.score(context=['hello world'], claim=['hello world'])
 ```
+
+# Checkpoints
+**AlignScore-base**: 
+https://drive.google.com/file/d/1e0U_Qo8V4s8PPM-8eUBT0-SQhbYXJCVd/view?usp=sharing
+
+**AlignScore-large**:
+https://drive.google.com/file/d/1juDipD7EDsyFSyJs8nzyHuPpedfdoRgp/view?usp=sharing
+
+
 # Leaderboard
 | Rank | Metrics          | SummaC | TRUE | Other-Spearman | Average |
 | ---- | :--------------- | :----: | :--: | :------------: | :-----: |
