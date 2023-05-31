@@ -13,8 +13,16 @@ from alignscore import alignscore
 scorer = alignscore(model='roberta-base', batch_size=32, device='cuda:0', ckpt_path:path_to_checkpoint, evaluation_mode='nli_sp')
 score = scorer.score(context=['hello world'], claim=['hello world'])
 ```
+`model`: the backbone model of the metric. Now, we only provide the metric trained on RoBERTa
 
-# Checkpoints
+`batch_size`: the batch size of inference. Larger batch size may accelerate the 
+
+
+## Checkpoints
+We provide two checkpoints in the paper: `AlignScore-base` and `AlignScore-large`. The `-base` model was trained on RoBERTa-base and has 125M parameters. The `-large` model was trained on RoBERTa-large and has 355M parameters. 
+
+The link is shown below:
+
 **AlignScore-base**: 
 https://drive.google.com/file/d/1e0U_Qo8V4s8PPM-8eUBT0-SQhbYXJCVd/view?usp=sharing
 
