@@ -1,7 +1,11 @@
 # AlignScore
-The repository for ALIGNScore, a metric for factual consistency evaluation.
+A metric for factual consistency evaluation from the paper: [AlignScore: Evaluating Factual Consistency with a Unified Alignment Function](https://arxiv.org/abs/2305.16739), \
+Yuheng Zha, Yichi Yang, Ruichen Li, Zhiting Hu\
+ACL 2023 
 
 # Usage
+## Evaluate Factual Consistency
+To evaluate the factual consistency of the `claim` w.r.t. the `context`, simply use the score function from `alignscore`.
 ```python
 from alignscore import alignscore
 
