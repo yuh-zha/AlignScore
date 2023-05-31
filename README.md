@@ -1,5 +1,12 @@
 # AlignScore
 The repository for ALIGNScore, a metric for factual consistency evaluation.
+# Usage
+```python
+from alignscore import alignscore
+
+scorer = alignscore(model='roberta-base', batch_size=32, device='cuda:0', ckpt_path:path_to_checkpoint, evaluation_mode='nli_sp')
+score = scorer.score(context=['hello world'], claim=['hello world])
+```
 # Leaderboard
 | Rank | Metrics          | SummaC | TRUE | Other-Spearman | Average |
 | ---- | :--------------- | :----: | :--: | :------------: | :-----: |
