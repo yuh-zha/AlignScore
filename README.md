@@ -30,10 +30,10 @@ We provide two checkpoints in the paper: `AlignScore-base` and `AlignScore-large
 The link is shown below:
 
 **AlignScore-base**: 
-https://drive.google.com/file/d/1e0U_Qo8V4s8PPM-8eUBT0-SQhbYXJCVd/view?usp=sharing
+https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-base.ckpt
 
 **AlignScore-large**:
-https://drive.google.com/file/d/1juDipD7EDsyFSyJs8nzyHuPpedfdoRgp/view?usp=sharing
+https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-large.ckpt
 
 
 # Leaderboard
