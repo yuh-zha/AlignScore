@@ -15,7 +15,13 @@ score = scorer.score(context=['hello world'], claim=['hello world'])
 ```
 `model`: the backbone model of the metric. Now, we only provide the metric trained on RoBERTa
 
-`batch_size`: the batch size of inference. Larger batch size may accelerate the 
+`batch_size`: the batch size of the inference
+
+`device`: which device to run the metric
+
+`ckpt_path`: the path to the checkpoint
+
+`evaluation_mode`: choose from `'nli_sp', 'nli', 'bin_sp', 'bin'`. `nli` and `bin` refer to the 3-way and binary classficiation head, respectively. `sp` refers to the chunk-sentence splitting, which is the default setting of AlignScore
 
 
 ## Checkpoints
