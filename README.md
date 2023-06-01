@@ -21,7 +21,7 @@ score = scorer.score(context=['hello world'], claim=['hello world'])
 
 `ckpt_path`: the path to the checkpoint
 
-`evaluation_mode`: choose from `'nli_sp', 'nli', 'bin_sp', 'bin'`. `nli` and `bin` refer to the 3-way and binary classficiation head, respectively. `sp` refers to the chunk-sentence splitting, which is the default setting of AlignScore
+`evaluation_mode`: choose from `'nli_sp', 'nli', 'bin_sp', 'bin'`. `nli` and `bin` refer to the 3-way and binary classficiation head, respectively. `sp` indicates if the chunk-sentence splitting method is used. `nli_sp` is the default setting of AlignScore
 
 
 ## Checkpoints
