@@ -39,22 +39,33 @@ https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-base.ckpt
 **AlignScore-large**:
 https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-large.ckpt
 
-## Training
-The training scripts are in the `train.py` file. The following are the hyperparameters
+## Training  
+Use `train.py` to train your own metric
+```python
+python train.py --seed 2022 --batch-size 32 \
+--num-epoch 3 --devices 0 1 2 3 \
+--model-name roberta-large -- ckpt-save-path ./ckpt/ \
+--data-path ./data/training_sets/ \
+--max-samples-per-dataset 500000
+```
 
 `seed`: the random seed for initialization
 
-`batch_size`: the batch size for training
+`batch-size`: the batch size for training
 
-`epochs`: training epochs
+`num-epoch`: training epochs
 
 `devices`: which devices to train the metric, a list of GPU ids
 
-`base_model`: the backbone model of the metric, default RoBERTa-large
+`model-name`: the backbone model name of the metric, default RoBERTa-large
 
-`ckpt_save_path`: the path to save the checkpoint
+`ckpt-save-path`: the path to save the checkpoint
 
-`training_sets`: the names of the training datasets
+`training-datasets`: the names of the training datasets
+
+`data-path`: the path to the training datasets
+
+`max-samples-per-dataset`: the maximum number of samples from a dataset
 
 ## Benchmarking
 Our benchmark includes the TRUE and SummaC benchmark as well as several popular factual consistency evaluation datasets. Use `benchmark.py` to benchmark a metric on these benchmarks/datasets. The following are the parameters
