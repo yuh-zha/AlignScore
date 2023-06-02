@@ -5,6 +5,10 @@ by Yuheng Zha, Yichi Yang, Ruichen Li and Zhiting Hu
 
 Accepted at ACL 2023 
 # Usage
+## Installation
+* Pytorch: Our metric is trained and evaluated on pytorch 1.12.1. We recommend use this version to reproduce the results. 
+
+* Other packages: Install with pip: `pip install -r requirements.txt`
 ## Evaluate Factual Consistency
 To evaluate the factual consistency of the `claim` w.r.t. the `context`, simply use the score function from `alignscore`.
 ```python
@@ -35,8 +39,40 @@ https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-base.ckpt
 **AlignScore-large**:
 https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-large.ckpt
 
+## Training
+The training scripts are in the `train.py` file. The following are the hyperparameters
+
+`seed`: the random seed for initialization
+
+`batch_size`: the batch size for training
+
+`epochs`: training epochs
+
+`devices`: which devices to train the metric, a list of GPU ids
+
+`base_model`: the backbone model of the metric, default RoBERTa-large
+
+`ckpt_save_path`: the path to save the checkpoint
+
+`training_sets`: the names of the training datasets
+
+## Benchmarking
+Our benchmark includes the TRUE and SummaC benchmark as well as several popular factual consistency evaluation datasets. Use `benchmark.py` to benchmark a metric on these benchmarks/datasets. The following are the parameters
+
+`evaluation_mode`: the evaluation mode, default `nli_sp`
+
+`ckpt_path`: the path to the saved checkpoint
+
+`base_model`: the name of the backbone model used to train the metric
+
+`device`: which device to run the metric, default `cuda:0`
+
+`tasks`: which tasks to run on, e.g., SummEval, QAGS-CNNDM, ...
+
 
 # Leaderboard
+We list the performance of AlignScore as well as other metrics here. 
+
 | Rank | Metrics          | SummaC | TRUE | Other-Spearman | Average |
 | ---- | :--------------- | :----: | :--: | :------------: | :-----: |
 | 1    | AlignScore-large |  88.6  | 83.8 |      49.3      |  73.9   |
