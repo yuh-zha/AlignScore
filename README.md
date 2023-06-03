@@ -21,15 +21,15 @@ from alignscore import alignscore
 scorer = alignscore(model='roberta-base', batch_size=32, device='cuda:0', ckpt_path:path_to_checkpoint, evaluation_mode='nli_sp')
 score = scorer.score(context=['hello world'], claim=['hello world'])
 ```
-`--model`: the backbone model of the metric. Now, we only provide the metric trained on RoBERTa
+`model`: the backbone model of the metric. Now, we only provide the metric trained on RoBERTa
 
-`--batch_size`: the batch size of the inference
+`batch_size`: the batch size of the inference
 
-`--device`: which device to run the metric
+`device`: which device to run the metric
 
-`--ckpt_path`: the path to the checkpoint
+`ckpt_path`: the path to the checkpoint
 
-`--evaluation_mode`: choose from `'nli_sp', 'nli', 'bin_sp', 'bin'`. `nli` and `bin` refer to the 3-way and binary classficiation head, respectively. `sp` indicates if the chunk-sentence splitting method is used. `nli_sp` is the default setting of AlignScore
+`evaluation_mode`: choose from `'nli_sp', 'nli', 'bin_sp', 'bin'`. `nli` and `bin` refer to the 3-way and binary classficiation head, respectively. `sp` indicates if the chunk-sentence splitting method is used. `nli_sp` is the default setting of AlignScore
 
 
 # Checkpoints
