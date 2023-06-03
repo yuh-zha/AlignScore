@@ -12,9 +12,9 @@ What is factual consistency and its evaluation?
 * **Evaluation:**  Show the degree of factual consistency between the context (text **a**) and the claim (text **b**).
 
 Where is factual consistency evaluation applicable?
-* Summarization: document and summary
-* Paraphrase: sentence A and sentence B
-* Dialog: context and response
+* **Summarization**: document and summary
+* **Paraphrase**: sentence A and sentence B
+* **Dialog**: context and response
 * ...
 
 # Leaderboard
