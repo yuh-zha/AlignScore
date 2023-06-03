@@ -5,8 +5,6 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from argparse import ArgumentParser
 import os
 
-seed_everything(2022)
-
 def train(datasets, args):
     dm = DSTDataLoader(
         dataset_config=datasets, 
@@ -109,6 +107,7 @@ if __name__ == "__main__":
     }
 
     parser = ArgumentParser()
+    parser.add_argument('--seed', type=int, default=2022)
     parser.add_argument('--batch-size', type=int, default=32)
     parser.add_argument('--accumulate-grad-batch', type=int, default=1)
     parser.add_argument('--num-epoch', type=int, default=3)
@@ -122,13 +121,15 @@ if __name__ == "__main__":
     parser.add_argument('--model-name', type=str, default="roberta-large")
     parser.add_argument('--ckpt-save-path', type=str, required=True)
     parser.add_argument('--ckpt-comment', type=str, default="")
-    parser.add_argument('--trainin-datasets', nargs='+', type=str, default=list(ALL_TRAINING_DATASETS.keys()))
+    parser.add_argument('--trainin-datasets', nargs='+', type=str, default=list(ALL_TRAINING_DATASETS.keys()), choices=list(ALL_TRAINING_DATASETS.keys()))
     parser.add_argument('--data-path', type=str, required=True)
     parser.add_argument('--max-samples-per-dataset', type=int, default=500000)
     parser.add_argument('--do-mlm', type=bool, default=False)
     parser.add_argument('--use-pretrained-model', type=bool, default=True)
    
     args = parser.parse_args()
+
+    seed_everything(args.seed)
 
     datasets = {
         name: {

@@ -7,7 +7,6 @@ import spacy
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.tokenize import sent_tokenize
 import json
-from flan_prompts import FLAN_PROMPTS, PROMPT_MAPPING
 
 class CTCScorer():
     def __init__(self, model_type) -> None:
@@ -141,7 +140,7 @@ class BartScoreScorer():
         self.checkpoint = checkpoint
         self.device = device
         import os, sys
-        sys.path.append('../BaselineForNLGEval/BARTScore')
+        sys.path.append('baselines/BARTScore')
         from bart_score import BARTScorer
         self.model = BARTScorer(device=self.device, checkpoint=self.checkpoint)
     
@@ -212,7 +211,7 @@ class MNLIScorer():
 class NERScorer():
     def __init__(self) -> None:
         import os, sys
-        sys.path.append('../BaselineForNLGEval/summac/summac')
+        sys.path.append('baselines/summac/summac')
         from model_guardrails import NERInaccuracyPenalty
         self.ner = NERInaccuracyPenalty()
     
@@ -226,7 +225,7 @@ class NERScorer():
 class UniEvalScorer():
     def __init__(self, task='fact', device='cuda:0') -> None:
         import os, sys
-        sys.path.append('../BaselineForNLGEval/UniEval')
+        sys.path.append('baselines/UniEval')
         from metric.evaluator import get_evaluator
 
         self.evaluator = get_evaluator(task, device=device)
@@ -246,7 +245,7 @@ class UniEvalScorer():
 class FEQAScorer():
     def __init__(self) -> None:
         import os, sys
-        sys.path.append('../BaselineForNLGEval/feqa')
+        sys.path.append('baselines/feqa')
         import benepar
         import nltk
 
@@ -254,7 +253,7 @@ class FEQAScorer():
         nltk.download('stopwords')
 
         from feqa import FEQA
-        self.feqa_model = FEQA(squad_dir=os.path.abspath('../BaselineForNLGEval/feqa/qa_models/squad1.0'), bart_qa_dir=os.path.abspath('../BaselineForNLGEval/feqa/bart_qg/checkpoints/'), use_gpu=True)
+        self.feqa_model = FEQA(squad_dir=os.path.abspath('baselines/feqa/qa_models/squad1.0'), bart_qa_dir=os.path.abspath('baselines/feqa/bart_qg/checkpoints/'), use_gpu=True)
     
     def scorer(self, premise, hypo):
         eval_score = self.feqa_model.compute_score(premise, hypo, aggregate=False)
@@ -265,7 +264,7 @@ class FEQAScorer():
 class QuestEvalScorer():
     def __init__(self) -> None:
         import os, sys
-        sys.path.append('../BaselineForNLGEval/QuestEval')
+        sys.path.append('baselines/QuestEval')
         from questeval.questeval_metric import QuestEval
         self.questeval = QuestEval(no_cuda=False)
 
@@ -281,8 +280,8 @@ class QuestEvalScorer():
 class QAFactEvalScorer():
     def __init__(self, model_folder, device='cuda:0') -> None:
         import os, sys
-        sys.path.append('../BaselineForNLGEval/QAFactEval')
-        sys.path.append(os.path.abspath('../BaselineForNLGEval/qaeval/'))
+        sys.path.append('baselines/QAFactEval')
+        sys.path.append(os.path.abspath('baselines/qaeval/'))
         from qafacteval import QAFactEval
         kwargs = {"cuda_device": int(device.split(':')[-1]), "use_lerc_quip": True, \
                 "verbose": True, "generation_batch_size": 32, \
@@ -312,7 +311,7 @@ class BERTScoreFFCIScorer():
 class DAEScorer():
     def __init__(self, model_dir, device=0) -> None:
         import os, sys
-        sys.path.insert(0, "../BaselineForNLGEval/factuality-datasets/")
+        sys.path.insert(0, "baselines/factuality-datasets/")
         from evaluate_generated_outputs import daefact
         self.dae = daefact(model_dir, model_type='electra_dae', gpu_device=device)
     
@@ -325,7 +324,7 @@ class SummaCScorer():
     def __init__(self, summac_type='conv', device='cuda:0') -> None:
         self.summac_type = summac_type
         import os, sys
-        sys.path.append("../BaselineForNLGEval/summac")
+        sys.path.append("baselines/summac")
         from summac.model_summac import SummaCZS, SummaCConv
 
         if summac_type == 'conv':
@@ -446,32 +445,3 @@ class ROUGEScorer():
             output_score.append(scores.item())
 
         return torch.tensor(output_score), torch.tensor(output_score), torch.tensor(output_score)
-
-class FLANScorer():
-    def __init__(self, device='cuda:0', model_name="google/flan-t5-base", batch_size=16) -> None:
-        from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-        self.device = device
-        self.batch_size = batch_size
-
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(self.device)
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.tokenizer.truncation_side = 'left'
-
-    def scorer(self, inputs):
-        self.pred_score = []
-        for batch in tqdm(self.chunks(inputs, self.batch_size), total=len(inputs)//self.batch_size + 1, desc="FLAN"):
-            toks = self.tokenizer(batch, padding=True, truncation=True, return_tensors='pt').to(self.device)
-            with torch.no_grad():
-                output = self.model.generate(**toks)
-
-                self.pred_score.extend(self.tokenizer.batch_decode(output, skip_special_tokens=True))
-        
-        return self.pred_score
-
-    def chunks(self, lst, n):
-            """Yield successive n-sized chunks from lst."""
-            for i in range(0, len(lst), n):
-                yield lst[i:i + n]
-    
-    def generate_input(self, premise, hypo):
-        FLAN_PROMPTS[PROMPT_MAPPING[self.evaluating_dataset]][0]
