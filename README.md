@@ -47,15 +47,15 @@ Our models are trained and evaluated using PyTorch 1.12.1. We recommend using th
 
 1. Please first install the right version of PyTorch before installing `alignscore`.
 2. You can install `alignscore` by cloning this repository and `pip install .`.
-3. After installing `alignscore`, please use `python -m spacy download en_core_web_sm` to install the required spaCy model.
+3. After installing `alignscore`, please use `python -m spacy download en_core_web_sm` to install the required spaCy model (we use `spaCy` for sentenization).
 
 # Evaluating Factual Consistency
-To evaluate the factual consistency of the `claim` w.r.t. the `context`, simply use the score function from `alignscore`.
+To evaluate the factual consistency of the `claim` w.r.t. the `context`, simply use the score method of `AlignScore`.
 ```python
-from alignscore import alignscore
+from alignscore import AlignScore
 
-scorer = alignscore(model='roberta-base', batch_size=32, device='cuda:0', ckpt_path:path_to_checkpoint, evaluation_mode='nli_sp')
-score = scorer.score(context=['hello world'], claim=['hello world'])
+scorer = AlignScore(model='roberta-base', batch_size=32, device='cuda:0', ckpt_path='/path/to/checkpoint', evaluation_mode='nli_sp')
+score = scorer.score(contexts=['hello world'], claims=['hello world'])
 ```
 `model`: the backbone model of the metric. Now, we only provide the metric trained on RoBERTa
 
@@ -78,7 +78,7 @@ https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-base.ckpt
 https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-large.ckpt
 
 # Training  
-Use `train.py` to train your own metric.
+You can use the above checkpoints directly for factual consistency evaluation. However, if you wish to train an alignment model from scratch, use `train.py`.
 ```python
 python train.py --seed 2022 --batch-size 32 \
 --num-epoch 3 --devices 0 1 2 3 \
