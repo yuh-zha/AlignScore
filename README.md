@@ -77,7 +77,7 @@ https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-base.ckpt
 https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-large.ckpt
 
 # Training  
-You can use the above checkpoints directly for factual consistency evaluation. However, if you wish to train an alignment model from scratch, use `train.py`.
+You can use the above checkpoints directly for factual consistency evaluation. However, if you wish to train an alignment model from scratch / on your own data, use `train.py`.
 ```python
 python train.py --seed 2022 --batch-size 32 \
 --num-epoch 3 --devices 0 1 2 3 \
