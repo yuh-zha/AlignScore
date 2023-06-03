@@ -11,6 +11,12 @@ What is factual consistency and its evaluation?
 * **Facutual Consistency:** For a given text pair (**a**, **b**), they are considered factual consistent if 1) all the information in **b** is also present in **a**; 2) **b** does not contradict **a**.
 * **Evaluation:**  Show the degree of factual consistency between the context (text **a**) and the claim (text **b**).
 
+Where is factual consistency evaluation applicable?
+* Summarization: document and summary
+* Paraphrase: sentence A and sentence B
+* Dialog: context and response
+* ...
+
 # Leaderboard
 We list the performance of AlignScore as well as other metrics here. 
 
