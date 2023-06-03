@@ -1,15 +1,19 @@
 # AlignScore
 [AlignScore: Evaluating Factual Consistency with a Unified Alignment Function](https://arxiv.org/abs/2305.16739)
 
-by Yuheng Zha, Yichi Yang, Ruichen Li and Zhiting Hu
+Yuheng Zha, Yichi Yang, Ruichen Li and Zhiting Hu
 
-Accepted at ACL 2023 
-# Usage
-## Installation
-* Pytorch: Our metric is trained and evaluated on pytorch 1.12.1. We recommend use this version to reproduce the results. 
+in Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics 
 
-* Other packages: Install with pip: `pip install -r requirements.txt`
-## Evaluate Factual Consistency
+# Installation
+
+Our models are trained and evaluated using PyTorch 1.12.1. We recommend using this version to reproduce the results.
+
+1. Please first install the right version of PyTorch before installing `alignscore`.
+2. You can install `alignscore` by cloning this repository and `pip install .`.
+3. After installing `alignscore`, please use `python -m spacy download en_core_web_sm` to install the required spaCy model.
+
+# Evaluating Factual Consistency
 To evaluate the factual consistency of the `claim` w.r.t. the `context`, simply use the score function from `alignscore`.
 ```python
 from alignscore import alignscore
@@ -17,21 +21,19 @@ from alignscore import alignscore
 scorer = alignscore(model='roberta-base', batch_size=32, device='cuda:0', ckpt_path:path_to_checkpoint, evaluation_mode='nli_sp')
 score = scorer.score(context=['hello world'], claim=['hello world'])
 ```
-`model`: the backbone model of the metric. Now, we only provide the metric trained on RoBERTa
+`--model`: the backbone model of the metric. Now, we only provide the metric trained on RoBERTa
 
-`batch_size`: the batch size of the inference
+`--batch_size`: the batch size of the inference
 
-`device`: which device to run the metric
+`--device`: which device to run the metric
 
-`ckpt_path`: the path to the checkpoint
+`--ckpt_path`: the path to the checkpoint
 
-`evaluation_mode`: choose from `'nli_sp', 'nli', 'bin_sp', 'bin'`. `nli` and `bin` refer to the 3-way and binary classficiation head, respectively. `sp` indicates if the chunk-sentence splitting method is used. `nli_sp` is the default setting of AlignScore
+`--evaluation_mode`: choose from `'nli_sp', 'nli', 'bin_sp', 'bin'`. `nli` and `bin` refer to the 3-way and binary classficiation head, respectively. `sp` indicates if the chunk-sentence splitting method is used. `nli_sp` is the default setting of AlignScore
 
 
-## Checkpoints
-We provide two checkpoints in the paper: `AlignScore-base` and `AlignScore-large`. The `-base` model was trained on RoBERTa-base and has 125M parameters. The `-large` model was trained on RoBERTa-large and has 355M parameters. 
-
-The link is shown below:
+# Checkpoints
+We provide two versions of the AlignScore checkpoints: `AlignScore-base` and `AlignScore-large`. The `-base` model is based on RoBERTa-base and has 125M parameters. The `-large` model is based on RoBERTa-large and has 355M parameters. 
 
 **AlignScore-base**: 
 https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-base.ckpt
@@ -39,8 +41,8 @@ https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-base.ckpt
 **AlignScore-large**:
 https://huggingface.co/yzha/AlignScore/resolve/main/AlignScore-large.ckpt
 
-## Training  
-Use `train.py` to train your own metric
+# Training  
+Use `train.py` to train your own metric.
 ```python
 python train.py --seed 2022 --batch-size 32 \
 --num-epoch 3 --devices 0 1 2 3 \
@@ -49,37 +51,47 @@ python train.py --seed 2022 --batch-size 32 \
 --max-samples-per-dataset 500000
 ```
 
-`seed`: the random seed for initialization
+`--seed`: the random seed for initialization
 
-`batch-size`: the batch size for training
+`--batch-size`: the batch size for training
 
-`num-epoch`: training epochs
+`--num-epoch`: training epochs
 
-`devices`: which devices to train the metric, a list of GPU ids
+`--devices`: which devices to train the metric, a list of GPU ids
 
-`model-name`: the backbone model name of the metric, default RoBERTa-large
+`--model-name`: the backbone model name of the metric, default RoBERTa-large
 
-`ckpt-save-path`: the path to save the checkpoint
+`--ckpt-save-path`: the path to save the checkpoint
 
-`training-datasets`: the names of the training datasets
+`--training-datasets`: the names of the training datasets
 
-`data-path`: the path to the training datasets
+`--data-path`: the path to the training datasets
 
-`max-samples-per-dataset`: the maximum number of samples from a dataset
+`--max-samples-per-dataset`: the maximum number of samples from a dataset
 
-## Benchmarking
-Our benchmark includes the TRUE and SummaC benchmark as well as several popular factual consistency evaluation datasets. Use `benchmark.py` to benchmark a metric on these benchmarks/datasets. The following are the parameters
+# Benchmarking
+Our benchmark includes the TRUE and SummaC benchmark as well as several popular factual consistency evaluation datasets.
 
-`evaluation_mode`: the evaluation mode, default `nli_sp`
+To run the benchmark, a few additional dependencies are required and can be installed with `pip install -r requirements.txt`.
+Additionally, some depedencies are not available as packages and need to be downloaded manually (please see `python benchmark.py --help` for instructions).
 
-`ckpt_path`: the path to the saved checkpoint
+Note installing `summac` may cause dependency conflicts with `alignscore`. Please reinstall `alignscore` to force the correct dependency versions.
 
-`base_model`: the name of the backbone model used to train the metric
+The relevant arguments for evaluating AlignScore are:
 
-`device`: which device to run the metric, default `cuda:0`
+`--alignscore`: evaluation the AlignScore metric
 
-`tasks`: which tasks to run on, e.g., SummEval, QAGS-CNNDM, ...
+`--alignscore-model`: the name of the backbone model (either 'roberta-base' or 'roberta-large')
 
+`--alignscore-ckpt`: the path to the saved checkpoint
+
+`--alignscore-eval-mode`: the evaluation mode, defaults to `nli_sp`
+
+`--device`: which device to run the metric, defaults to `cuda:0`
+
+`--tasks`: which tasks to benchmark, e.g., SummEval, QAGS-CNNDM, ...
+
+For the baselines, please see `python benchmark.py --help` for details.
 
 # Leaderboard
 We list the performance of AlignScore as well as other metrics here. 
