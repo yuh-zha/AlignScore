@@ -1,5 +1,5 @@
 # AlignScore
-This is the repository for AlignScore, a metric for automatic factual consistency evaluation. The metric is introduced in 
+This is the repository for AlignScore, a metric for automatic factual consistency evaluation of text pairs. The metric is introduced in 
 
 [AlignScore: Evaluating Factual Consistency with a Unified Alignment Function](https://arxiv.org/abs/2305.16739)
 
@@ -9,7 +9,7 @@ ACL 2023
 
 We use the following definition to build the metric:
 
-* **Facutual Consistency:** For a given text pair (**a**, **b**). They are considered factual consistent if 1) all the information in **b** is present in **a**; 2) **b** does not contradict **a**
+* **Facutual Consistency:** For a given text pair (**a**, **b**), they are considered factual consistent if 1) all the information in **b** is also present in **a**; 2) **b** does not contradict **a**.
 
 # Leaderboard
 We list the performance of AlignScore as well as other metrics here. 
