@@ -7,9 +7,9 @@ Yuheng Zha, Yichi Yang, Ruichen Li and Zhiting Hu
 
 ACL 2023
 
-We use the following definition to build the metric:
-
+What is factual consistency and its evaluation?
 * **Facutual Consistency:** For a given text pair (**a**, **b**), they are considered factual consistent if 1) all the information in **b** is also present in **a**; 2) **b** does not contradict **a**.
+* **Evaluation:**  Show the degree of factual consistency between the context (text **a**) and the claim (text **b**).
 
 # Leaderboard
 We list the performance of AlignScore as well as other metrics here. 
