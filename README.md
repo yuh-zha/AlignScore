@@ -7,6 +7,11 @@ Yuheng Zha, Yichi Yang, Ruichen Li and Zhiting Hu
 
 ACL 2023
 
+**Facutual Consistency:** For a given text pair **a** and **b**. They are considered factual consistent if 1) all the information in **b** is present in **a**; 2) **b** does not contradict **a**
+
+**AlignScore:** Automatically evaluate the degree of factual consistency of the text pair (**a**, **b**)
+
+
 # Leaderboard
 We list the performance of AlignScore as well as other metrics here. 
 
