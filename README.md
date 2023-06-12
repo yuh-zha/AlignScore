@@ -49,6 +49,18 @@ We list the performance of AlignScore as well as other metrics here.
 
 ** TRUE: [\[Paper\]](https://arxiv.org/abs/2204.04991) \| [\[Github\]](https://github.com/google-research/true)
 
+We also list the performance comparison with GPT-based metrics below. The rank is based on the Spearman Correlation coefficient on SummEval dataset.
+
+| Rank | Metrics          | SummEval | QAGS-XSUM | QAGS-CNNDM |                            Paper                             | Code                                              |
+| :--- | :--------------- | :------: | :-------: | :--------: | :----------------------------------------------------------: | ------------------------------------------------- |
+| 1    | G-EVAL-4         |   50.7   |   53.7    |    68.5    | [:page\_facing\_up:(Liu et al. 2023)](https://arxiv.org/pdf/2303.16634.pdf) | [:octocat:](https://github.com/nlpyang/geval)     |
+| 2    | GPTScore         |   47.5   |     /     |     /      | [:page\_facing\_up:(Fu et al. 2023)](https://arxiv.org/pdf/2302.04166.pdf) | [:octocat:](https://github.com/jinlanfu/GPTScore) |
+| 3    | AlignScore-large |   46.6   |   57.2    |    73.9    |                              -                               | -                                                 |
+| 4    | AlignScore-base  |   43.4   |   51.9    |    69.0    |                              -                               | -                                                 |
+| 5    | ChatGPT          |   43.3   |     /     |     /      | [:page\_facing\_up:(Gao et al. 2023)](https://arxiv.org/pdf/2303.15621.pdf) | -                                                  |
+| 6    | G-EVAL-3.5       |   38.6   |   40.6    |    51.6    | [:page\_facing\_up:(Liu et al. 2023)](https://arxiv.org/pdf/2303.16634.pdf) | [:octocat:](https://github.com/nlpyang/geval)     |
+
+
 
 # Installation
 
