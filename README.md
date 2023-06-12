@@ -76,7 +76,7 @@ To evaluate the factual consistency of the `claim` w.r.t. the `context`, simply 
 from alignscore import AlignScore
 
 scorer = AlignScore(model='roberta-base', batch_size=32, device='cuda:0', ckpt_path='/path/to/checkpoint', evaluation_mode='nli_sp')
-score = scorer.score(contexts=['hello world'], claims=['hello world'])
+score = scorer.score(contexts=['hello world.'], claims=['hello world.'])
 ```
 `model`: the backbone model of the metric. Now, we only provide the metric trained on RoBERTa
 
