@@ -59,7 +59,7 @@ We also list the performance comparison with GPT-based metrics below. The rank i
 | 4    | GPTScore         | GPT3.5-d03   | 45.9     | 22.7      | 64.4       | 44.3 |                                                              |                                                   |
 | 5    | GPTScore         | GPT3-d01     | 46.1     | 22.3      | 63.9       | 44.1 | [:page\_facing\_up:(Fu et al.  2023)](https://arxiv.org/pdf/2302.04166.pdf) | [:octocat:](https://github.com/jinlanfu/GPTScore) |
 | 6    | G-EVAL-3.5       | GPT3.5-d03   | 38.6     | 40.6      | 51.6       | 43.6 | [:page\_facing\_up:(Liu et al.  2023)](https://arxiv.org/pdf/2303.16634.pdf) | [:octocat:](https://github.com/nlpyang/geval)     |
-| 7    | ChatGPT          | GPT3.5-turbo | 43.3     | /         | /          | 43.3 | [:page\_facing\_up:(Gao  et al. 2023)](https://arxiv.org/pdf/2303.15621.pdf) |                                                   |
+| 7    | ChatGPT          | GPT3.5-turbo | 43.3     | /         | /          | 43.3 | [:page\_facing\_up:(Luo et al. 2023)](https://arxiv.org/pdf/2303.15621.pdf) |                                                   |
 
 
 
