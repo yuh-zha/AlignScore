@@ -56,13 +56,15 @@ We also list the performance comparison with GPT-based metrics below. The rank i
 | 1    | AlignScore-large | RoBERTa-l    |   46.6   |   57.2    |    73.9    | 59.3 |                                                              |                                                   |
 | 2    | G-EVAL-4         | GPT4         |   50.7   |   53.7    |    68.5    | 57.6 | [:page\_facing\_up:(Liu et al.  2023)](https://arxiv.org/pdf/2303.16634.pdf) |   [:octocat:](https://github.com/nlpyang/geval)   |
 | 3    | AlignScore-base  | RoBERTa-b    |   43.4   |   51.9    |    69.0    | 54.8 |                                                              |                                                   |
-| 4    | GPTScore         | GPT3.5-d03   |   45.9   |   22.7    |    64.4    | 44.3 | [:page\_facing\_up:(Fu et al.  2023)](https://arxiv.org/pdf/2302.04166.pdf) |                                                   |
-| 5    | GPTScore         | GPT3-d01     |   46.1   |   22.3    |    63.9    | 44.1 | [:page\_facing\_up:(Fu et al.  2023)](https://arxiv.org/pdf/2302.04166.pdf) | [:octocat:](https://github.com/jinlanfu/GPTScore) |
-| 6    | G-EVAL-3.5       | GPT3.5-d03   |   38.6   |   40.6    |    51.6    | 43.6 | [:page\_facing\_up:(Liu et al.  2023)](https://arxiv.org/pdf/2303.16634.pdf) |   [:octocat:](https://github.com/nlpyang/geval)   |
-| 7    | ChatGPT (Gao)    | GPT3.5-turbo |   41.6   |   30.4    |    48.9    | 40.3 | [:page\_facing\_up:(Gao et al.  2023)](https://arxiv.org/pdf/2304.02554.pdf) |                                                   |
-| 8    | ChatGPT (Luo)    | GPT3.5-turbo |   27.1   |   31.9    |    28.5    | 29.2 | [:page\_facing\_up:(Luo et al.  2023)](https://arxiv.org/pdf/2303.15621.pdf) |                                                   |
+| 4    | FActScore (modified)* | GPT3.5-d03 (atomic fact generation), GPT3.5-turbo (evaluation) |   52.6   |   51.2    |    57.6    | 53.8 | [:page\_facing\_up:(Min et al.  2023)](https://arxiv.org/pdf/2305.14251.pdf) | [:octocat:](https://github.com/shmsw25/FActScore)* |
+| 5    | GPTScore         | GPT3.5-d03   |   45.9   |   22.7    |    64.4    | 44.3 | [:page\_facing\_up:(Fu et al.  2023)](https://arxiv.org/pdf/2302.04166.pdf) |                                                   |
+| 6    | GPTScore         | GPT3-d01     |   46.1   |   22.3    |    63.9    | 44.1 | [:page\_facing\_up:(Fu et al.  2023)](https://arxiv.org/pdf/2302.04166.pdf) | [:octocat:](https://github.com/jinlanfu/GPTScore) |
+| 7    | G-EVAL-3.5       | GPT3.5-d03   |   38.6   |   40.6    |    51.6    | 43.6 | [:page\_facing\_up:(Liu et al.  2023)](https://arxiv.org/pdf/2303.16634.pdf) |   [:octocat:](https://github.com/nlpyang/geval)   |
+| 8    | ChatGPT (Gao)    | GPT3.5-turbo |   41.6   |   30.4    |    48.9    | 40.3 | [:page\_facing\_up:(Gao et al.  2023)](https://arxiv.org/pdf/2304.02554.pdf) |                                                   |
+| 9    | ChatGPT (Luo)    | GPT3.5-turbo |   27.1   |   31.9    |    28.5    | 29.2 | [:page\_facing\_up:(Luo et al.  2023)](https://arxiv.org/pdf/2303.15621.pdf) |                                                   |
 
-
+\* We use a modified version of FActScore `retrieval+ChatGPT` where we skip the retrieval stage and use the context documents in SummEval, QAGS-XSUM, and QAGS-CNNDM directly. As samples in theses datasets do not have "topics", we make a small modification
+    to the original FActScore prompt and do not mention `topic` when not available. See [our fork of FActScore](https://github.com/yichi-yang/FActScore) for more details.
 
 # Installation
 
