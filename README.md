@@ -49,7 +49,7 @@ We list the performance of AlignScore as well as other metrics here.
 
 ** TRUE: [\[Paper\]](https://arxiv.org/abs/2204.04991) \| [\[Github\]](https://github.com/google-research/true)
 
-We also list the performance comparison with GPT-based metrics below. The rank is based on the Spearman Correlation coefficient on SummEval dataset.
+We also list the performance comparison with GPT-based metrics below. The rank is based on the averaged Spearman Correlation coefficients on SummEval, QAGS-XSum and QAGS-CNNDM dataset.
 
 | Rank | Metrics          | Base Model   | SummEval | QAGS-XSUM | QAGS-CNNDM | AVG  |                            Paper                             |                       Code                        |
 | ---- | ---------------- | ------------ | :------: | :-------: | :--------: | :--- | :----------------------------------------------------------: | :-----------------------------------------------: |
