@@ -445,3 +445,260 @@ class ROUGEScorer():
             output_score.append(scores.item())
 
         return torch.tensor(output_score), torch.tensor(output_score), torch.tensor(output_score)
+
+
+class GPTScoreScorer():
+    def __init__(self, api_key, gpt_model='davinci003') -> None:
+        import os, sys
+        sys.path.append('../BaselineForNLGEval/GPTScore')
+        from gpt3_score import gpt3score
+
+        self.gpt3score = gpt3score
+        self.api_key = api_key
+        self.gpt_model = gpt_model
+
+        self.consistency_prefix = "Generate factually consistent summary for the following text: " 
+        self.consistency_suffix = " \n\nTl;dr "
+
+
+    def scorer(self, premise: list, hypothesis: list):
+        assert len(premise) == len(hypothesis)
+        output_score = []
+        for p, h in tqdm(zip(premise, hypothesis), total=len(premise), desc="Evaluating GPTScore"):
+            score = self.gpt3score(input=self.consistency_prefix + p + self.consistency_suffix, output=h, gpt3model=self.gpt_model, api_key=self.api_key)
+            output_score.append(score)
+
+        output_score = torch.tensor(output_score)
+        
+        return None, output_score, None
+    
+class ChatGPTLuo2023Scorer():
+    def __init__(self, task, api_key, chat_model='gpt-3.5-turbo') -> None:
+        openai.api_key = api_key
+        assert isinstance(task, list) and len(task) == 1
+
+        self.task = task[0]
+        self.chat_model = chat_model
+        self.instruct = """Score the following summary given the corresponding article with respect to consistency from 1 to 10. Note that consistency measures how much information included in the summary is present in the source article. 10 points indicate the summary contains only statements that are entailed by the source document."""
+    
+    def scorer(self, premise: list, hypothesis: list):
+        import time
+        assert len(premise) == len(hypothesis)
+        output_score = []
+        i = -1
+
+        for p, h in tqdm(zip(premise, hypothesis), total=len(premise), desc="Evaluating ChatGPTLuo2023"):
+            i += 1
+            if i <= -1: continue
+
+            attempt = 0
+            max_attempt = 5
+            while attempt < max_attempt:
+                try:
+                    response = openai.ChatCompletion.create(
+                                model=self.chat_model,
+                                messages=[
+                            #         {"role": "system", "content": "You are a helpful assistant."},
+                                    {"role": "user", "content": f"""Score the following summary given the corresponding article with respect to consistency from 1 to 10. Note that consistency measures how much information included in the summary is present in the source article. 10 points indicate the summary contains only statements that are entailed by the source document.
+
+                                        Summary: {h}
+
+                                        Article: {p} """},
+                                ],
+                                temperature=0,
+                                max_tokens=10
+                            )
+                    res_content = response['choices'][0]['message']['content']
+                    break
+                except:
+                    attempt += 1
+                    print("openai api failed")
+                    if max_attempt == attempt:
+                        print("maximum failed attempts reached. exiting...")
+                        exit()
+            json.dump({i: res_content}, open(f'exp_results/nlg_eval_fact/baselines/ChatGPTLuo2023-output/{self.task}.json', 'a'))
+            with open(f'exp_results/nlg_eval_fact/baselines/ChatGPTLuo2023-output/{self.task}.json', 'a') as f:
+                f.write('\n')
+            
+            try:
+                score = int(res_content)
+            except:
+                print("unknown score")
+                score = 0.0
+            output_score.append(score)
+            # time.sleep(1)
+
+        output_score = torch.tensor(output_score)
+        
+        return None, output_score, None
+
+class ChatGPTGao2023Scorer():
+    def __init__(self, task, api_key, chat_model='gpt-3.5-turbo') -> None:
+        openai.api_key = api_key
+        assert isinstance(task, list) and len(task) == 1
+
+        self.task = task[0]
+        self.chat_model = chat_model
+    
+    def scorer(self, premise: list, hypothesis: list):
+        import time
+        assert len(premise) == len(hypothesis)
+        output_score = []
+        i = -1
+
+        for p, h in tqdm(zip(premise, hypothesis), total=len(premise), desc="Evaluating ChatGPTGao2023"):
+            i += 1
+            if i <= -1: continue
+
+            attempt = 0
+            max_attempt = 5
+            while attempt < max_attempt:
+                try:
+                    response = openai.ChatCompletion.create(
+                                model=self.chat_model,
+                                messages=[
+                                    # {"role": "system", "content": "You are a human annotator that rates the quality of summaries"},
+                                    # {"role": "user", "content": f"""Imagine you are a human annotator now. You will evaluate the quality of summaries written for a news article. Please follow these steps:\n\n 1. Carefully read the news article, and be aware of the information it contains.\n 2. Read the proposed summary.\n 3. Rate the summary on four dimensions: relevance, consistency, fluency, and coherence. You should rate on a scale from 1 (worst) to 5 (best).\n\n  Definitions are as follows:\n Relevance: The rating measures how well the summary captures the key points of the article. Consider whether all and only the important aspects are contained in the summary.\n Consistency: The rating measures whether the facts in the summary are consistent with the facts in the original article. Consider whether the summary does reproduce all facts accurately and does not make up untrue information.\n Fluency: This rating measures the quality of individual sentences, whether they are well-written and grammatically correct. Consider the quality of individual sentences.\n Coherence: The rating measures the quality of all sentences collectively, to fit together and sound natural. Consider the quality of the summary as a whole.\n\n The article and the summary are given below:\n Article: {p}\n Summary: {h}"""},
+                                    {"role": "user", "content": f"""Evaluate the quality of summaries written for a news article. Rate each summary on four dimensions: relevance, faithfulness, fluency, and coherence. You should rate on a scale from 1 (worst) to 5 (best).\n\n Article: {p}\n Summary: {h}"""},
+                                ],
+                                temperature=0,
+                                # max_tokens=10
+                            )
+                    res_content = response['choices'][0]['message']['content']
+                    break
+                except:
+                    attempt += 1
+                    print("openai api failed")
+                    if max_attempt == attempt:
+                        print("maximum failed attempts reached. exiting...")
+                        exit()
+            json.dump({i: res_content}, open(f'exp_results/nlg_eval_fact/baselines/ChatGPTGao2023-output/{self.task}.json', 'a'))
+            with open(f'exp_results/nlg_eval_fact/baselines/ChatGPTGao2023-output/{self.task}.json', 'a') as f:
+                f.write('\n')
+            
+            try:
+                score = int(res_content)
+            except:
+                print("unknown score")
+                score = 0.0
+            output_score.append(score)
+            # time.sleep(1)
+
+        output_score = torch.tensor(output_score)
+        
+        return None, output_score, None
+    
+class ChatGPTYiChen2023Scorer():
+    def __init__(self, task, api_key, chat_model='gpt-3.5-turbo') -> None:
+        ### Explicit score by ChatGPT
+        openai.api_key = api_key
+        assert isinstance(task, list) and len(task) == 1
+
+        self.task = task[0]
+        self.chat_model = chat_model
+    
+    def scorer(self, premise: list, hypothesis: list):
+        import time
+        assert len(premise) == len(hypothesis)
+        output_score = []
+        i = -1
+
+        for p, h in tqdm(zip(premise, hypothesis), total=len(premise), desc="Evaluating ChatGPTYiChen2023"):
+            i += 1
+            if i <= -1: continue
+
+            attempt = 0
+            max_attempt = 5
+            while attempt < max_attempt:
+                try:
+                    response = openai.ChatCompletion.create(
+                                model=self.chat_model,
+                                messages=[
+                                    # {"role": "system", "content": "You are a human annotator that rates the quality of summaries"},
+                                    # {"role": "user", "content": f"""Imagine you are a human annotator now. You will evaluate the quality of summaries written for a news article. Please follow these steps:\n\n 1. Carefully read the news article, and be aware of the information it contains.\n 2. Read the proposed summary.\n 3. Rate the summary on four dimensions: relevance, consistency, fluency, and coherence. You should rate on a scale from 1 (worst) to 5 (best).\n\n  Definitions are as follows:\n Relevance: The rating measures how well the summary captures the key points of the article. Consider whether all and only the important aspects are contained in the summary.\n Consistency: The rating measures whether the facts in the summary are consistent with the facts in the original article. Consider whether the summary does reproduce all facts accurately and does not make up untrue information.\n Fluency: This rating measures the quality of individual sentences, whether they are well-written and grammatically correct. Consider the quality of individual sentences.\n Coherence: The rating measures the quality of all sentences collectively, to fit together and sound natural. Consider the quality of the summary as a whole.\n\n The article and the summary are given below:\n Article: {p}\n Summary: {h}"""},
+                                    {"role": "user", "content": f"""Score the following storyline given the beginning of the story on a continual scale from 0 (worst) to 100 (best), where score of 0 means "The storyline makes no sense and is totally not understandable" and score of 100 means "The storyline is perfect-written and highly consistent with the given beginning of the story". \n\n The beginning of the story: {p} \n\n Storyline: {h} \n\n Score: """},
+                                ],
+                                temperature=0,
+                                # max_tokens=10
+                            )
+                    res_content = response['choices'][0]['message']['content']
+                    break
+                except:
+                    attempt += 1
+                    print("openai api failed")
+                    if max_attempt == attempt:
+                        print("maximum failed attempts reached. exiting...")
+                        exit()
+            json.dump({i: res_content}, open(f'exp_results/nlg_eval_fact/baselines/ChatGPTYiChen2023-output/{self.task}.json', 'a'))
+            with open(f'exp_results/nlg_eval_fact/baselines/ChatGPTYiChen2023-output/{self.task}.json', 'a') as f:
+                f.write('\n')
+            
+            try:
+                score = int(res_content)
+            except:
+                print("unknown score")
+                score = 0.0
+            output_score.append(score)
+            # time.sleep(1)
+
+        output_score = torch.tensor(output_score)
+        
+        return None, output_score, None
+    
+class ChatGPTShiqiChen2023Scorer():
+    def __init__(self, task, api_key, chat_model='gpt-3.5-turbo') -> None:
+        ### Explicit score by ChatGPT
+        openai.api_key = api_key
+        assert isinstance(task, list) and len(task) == 1
+
+        self.task = task[0]
+        self.chat_model = chat_model
+    
+    def scorer(self, premise: list, hypothesis: list):
+        import time
+        assert len(premise) == len(hypothesis)
+        output_score = []
+        i = -1
+
+        for p, h in tqdm(zip(premise, hypothesis), total=len(premise), desc="Evaluating ChatGPTShiqiChen2023"):
+            i += 1
+            if i <= -1: continue
+            hypo_sents = sent_tokenize(h)
+            hypo_sents = ' \n '.join([f"{i+1}. "+each for i, each in enumerate(hypo_sents)])
+            attempt = 0
+            max_attempt = 5
+            while attempt < max_attempt:
+                try:
+                    response = openai.ChatCompletion.create(
+                                model=self.chat_model,
+                                messages=[
+                                    # {"role": "system", "content": "You are a human annotator that rates the quality of summaries"},
+                                    # {"role": "user", "content": f"""Imagine you are a human annotator now. You will evaluate the quality of summaries written for a news article. Please follow these steps:\n\n 1. Carefully read the news article, and be aware of the information it contains.\n 2. Read the proposed summary.\n 3. Rate the summary on four dimensions: relevance, consistency, fluency, and coherence. You should rate on a scale from 1 (worst) to 5 (best).\n\n  Definitions are as follows:\n Relevance: The rating measures how well the summary captures the key points of the article. Consider whether all and only the important aspects are contained in the summary.\n Consistency: The rating measures whether the facts in the summary are consistent with the facts in the original article. Consider whether the summary does reproduce all facts accurately and does not make up untrue information.\n Fluency: This rating measures the quality of individual sentences, whether they are well-written and grammatically correct. Consider the quality of individual sentences.\n Coherence: The rating measures the quality of all sentences collectively, to fit together and sound natural. Consider the quality of the summary as a whole.\n\n The article and the summary are given below:\n Article: {p}\n Summary: {h}"""},
+                                    {"role": "user", "content": f"""Source Document: \n {p} \n\n Q: Can the following statement be inferred from the above document? Yes or No?\n {hypo_sents} \n A: 1. """},
+                                ],
+                                temperature=0,
+                                # max_tokens=10
+                            )
+                    res_content = response['choices'][0]['message']['content']
+                    break
+                except:
+                    attempt += 1
+                    print("openai api failed")
+                    if max_attempt == attempt:
+                        print("maximum failed attempts reached. exiting...")
+                        exit()
+            json.dump({i: res_content}, open(f'exp_results/nlg_eval_fact/baselines/ChatGPTShiqiChen2023-output/{self.task}.json', 'a'))
+            with open(f'exp_results/nlg_eval_fact/baselines/ChatGPTShiqiChen2023-output/{self.task}.json', 'a') as f:
+                f.write('\n')
+            
+            try:
+                score = int(res_content)
+            except:
+                print("unknown score")
+                score = 0.0
+            output_score.append(score)
+            # time.sleep(1)
+
+        output_score = torch.tensor(output_score)
+        
+        return None, output_score, None
