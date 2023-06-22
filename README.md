@@ -1,10 +1,7 @@
 # AlignScore
-This is the repository for AlignScore, a metric for automatic factual consistency evaluation of text pairs. The metric is introduced in 
-
-[AlignScore: Evaluating Factual Consistency with a Unified Alignment Function](https://arxiv.org/abs/2305.16739)
-
-Yuheng Zha, Yichi Yang, Ruichen Li and Zhiting Hu
-
+This is the repository for AlignScore, a metric for automatic factual consistency evaluation of text pairs. The metric is introduced in \
+[AlignScore: Evaluating Factual Consistency with a Unified Alignment Function](https://arxiv.org/abs/2305.16739) \
+Yuheng Zha, Yichi Yang, Ruichen Li and Zhiting Hu \
 ACL 2023
 
 What is factual consistency and its evaluation?
