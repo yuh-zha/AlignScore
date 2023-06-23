@@ -4,20 +4,24 @@ This is the repository for AlignScore, a metric for automatic factual consistenc
 Yuheng Zha, Yichi Yang, Ruichen Li and Zhiting Hu \
 ACL 2023
 
-What is factual consistency and its evaluation?
-* **Facutual Consistency:** For a given text pair (**a**, **b**), they are considered factual consistent if 1) all the information in **b** is also present in **a**; 2) **b** does not contradict **a**.
-* **Evaluation:**  Show the degree of factual consistency between the context (text **a**) and the claim (text **b**).
+**Facutual consistency evaluation** is to evaluate whether all the information in **b** is contained in **a** (**b** does not contradict **a**). For example, this is a factual inconsistent case:
 
-Where is factual consistency evaluation applicable?
-* **Summarization**: document and summary
-* **Paraphrase**: sentence A and sentence B
-* **Dialog**: context and response
-* ...
+* **a**: Children smiling and waving at camera.
+* **b**: The kids are frowning.
 
-# Leaderboard
-We list the performance of AlignScore as well as other metrics here. 
+And this is a factual consistent case:
 
-| Rank | Metrics          | SummaC* | TRUE** | Other-Spearman | Average | Paper | Code |
+* **a**: The NBA season of 1975 -- 76 was the 30th season of the National Basketball Association.
+* **b**: The 1975 -- 76 season of the National Basketball Association was the 30th season of the NBA.
+
+Factual consistency evaluation can be applied to many tasks, e.g., Summarization, Paraphrase and Dialog. For example, large language models often generate hallucinations when summarizing documents. We wonder if the generated text is factual consistent to its original context.
+
+# Leaderboards
+## Leaderboard --- compare with similar size metrics
+
+We list the performance of AlignScore as well as other metrics on the SummaC (includes 6 datasets) and TRUE (includes 11 datasets) benchmarks, as well as other popular factual consistency datasets (include 6 datasets). 
+
+| Rank | Metrics          | SummaC* | TRUE** | Other Datasets*** | Average | Paper | Code |
 | ---- | :--------------- | :-----: | :----: | :------------: | :-----: | :---: | :--: |
 | 1    | **AlignScore-large** |  88.6   |  83.8  |      49.3      |  73.9   |   [:page\_facing\_up:(Zha et al.  2023)](https://arxiv.org/pdf/2305.16739.pdf)   |  [:octocat:](https://github.com/yuh-zha/AlignScore)  |
 | 2    | **AlignScore-base**  |  87.4   |  82.5  |      44.9      |  71.6   |   [:page\_facing\_up:(Zha et al.  2023)](https://arxiv.org/pdf/2305.16739.pdf)   |  [:octocat:](https://github.com/yuh-zha/AlignScore)  |
@@ -42,26 +46,31 @@ We list the performance of AlignScore as well as other metrics here.
 | 21   | MNLI             |  47.9   |  60.4  |      3.1       |  37.2   | [:page\_facing\_up:(Williams et al. 2018)](https://arxiv.org/abs/1704.05426) | [:octocat:](https://github.com/nyu-mll/multiNLI) |
 | 22   | FEQA             |  48.3   |  52.2  |      -1.9      |  32.9   | [:page\_facing\_up:(Durmus et al. 2020)](https://arxiv.org/abs/2005.03754) | [:octocat:](https://github.com/esdurmus/feqa) |
 
-\*  SummaC: [\[Paper\]](https://arxiv.org/abs/2111.09525) \| [\[Github\]](https://github.com/tingofurro/summac)
+\*  SummaC Benchmark: [\[Paper\]](https://arxiv.org/abs/2111.09525) \| [\[Github\]](https://github.com/tingofurro/summac)
 
-** TRUE: [\[Paper\]](https://arxiv.org/abs/2204.04991) \| [\[Github\]](https://github.com/google-research/true)
+** TRUE Benchmark: [\[Paper\]](https://arxiv.org/abs/2204.04991) \| [\[Github\]](https://github.com/google-research/true)
 
-We also list the performance comparison with GPT-based metrics below. The rank is based on the averaged Spearman Correlation coefficients on SummEval, QAGS-XSum and QAGS-CNNDM dataset.
+*** Besides the SummaC and TRUE benchmarks, we also include other popular factual consistency evaluation datasets: [XSumFaith](https://doi.org/10.18653/v1/2020.acl-main.173), [SummEval](https://doi.org/10.1162/tacl_a_00373), [QAGS-XSum](https://doi.org/10.18653/v1/2020.acl-main.450), [QAGS-CNNDM](https://doi.org/10.18653/v1/2020.acl-main.450), [FRANK-XSum](https://doi.org/10.18653/v1/2021.naacl-main.383), [FRANK-CNNDM](https://doi.org/10.18653/v1/2021.naacl-main.383) and [SamSum](https://doi.org/10.18653/v1/D19-5409). We compute the Spearman Correlation coefficients between the human annotated score and the metric predicted score, following common practice. 
 
-| Rank | Metrics               | Base Model                                                   | SummEval | QAGS-XSUM | QAGS-CNNDM | AVG  |                            Paper                             |                             Code                             |
+## Leaderboard --- compare with LLM-based metrics
+
+We also show the performance comparison with large-language-model based metrics below. The rank is based on the average Spearman Correlation coefficients on SummEval, QAGS-XSum and QAGS-CNNDM datasets.*
+
+| Rank | Metrics               | Base Model                                                   | SummEval | QAGS-XSUM | QAGS-CNNDM | Average |                            Paper                             |                             Code                             |
 | :--- | :-------------------- | :----------------------------------------------------------- | :------: | :-------: | :--------: | :--: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | 1    | **AlignScore-large**     | RoBERTa-l (355M)                                             |   46.6   |   57.2    |    73.9    | 59.3 | [:page\_facing\_up:(Zha et al.  2023)](https://arxiv.org/pdf/2305.16739.pdf) |      [:octocat:](https://github.com/yuh-zha/AlignScore)      |
 | 2    | G-EVAL-4              | GPT4                                                         |   50.7   |   53.7    |    68.5    | 57.6 | [:page\_facing\_up:(Liu et al.  2023)](https://arxiv.org/pdf/2303.16634.pdf) |        [:octocat:](https://github.com/nlpyang/geval)         |
 | 3    | **AlignScore-base**       | RoBERTa-b (125M)                                             |   43.4   |   51.9    |    69.0    | 54.8 | [:page\_facing\_up:(Zha et al.  2023)](https://arxiv.org/pdf/2305.16739.pdf) |      [:octocat:](https://github.com/yuh-zha/AlignScore)      |
-| 4    | FActScore (modified)* | GPT3.5-d03 + GPT3.5-turbo |   52.6   |   51.2    |    57.6    | 53.8 | [:page\_facing\_up:(Min et al.   2023)](https://arxiv.org/pdf/2305.14251.pdf) |      [:octocat:](https://github.com/shmsw25/FActScore)*      |
-| 5    | ChatGPT (ShiqiChen)   | GPT3.5-turbo                                                 |   42.7   |   53.3    |    52.7    | 49.6 | [:page\_facing\_up:(Yi Chen et al.  2023)](https://arxiv.org/pdf/2305.14069.pdf) | [:octocat:](https://github.com/SJTU-LIT/llmeval_sum_factual) |
+| 4    | FActScore (modified)** | GPT3.5-d03 + GPT3.5-turbo |   52.6   |   51.2    |    57.6    | 53.8 | [:page\_facing\_up:(Min et al.   2023)](https://arxiv.org/pdf/2305.14251.pdf) |      [:octocat:](https://github.com/shmsw25/FActScore)*      |
+| 5    | ChatGPT (Chen et al. 2023) | GPT3.5-turbo                                                 |   42.7   |   53.3    |    52.7    | 49.6 | [:page\_facing\_up:(Yi Chen et al.  2023)](https://arxiv.org/pdf/2305.14069.pdf) | [:octocat:](https://github.com/SJTU-LIT/llmeval_sum_factual) |
 | 6    | GPTScore              | GPT3.5-d03                                                   |   45.9   |   22.7    |    64.4    | 44.3 | [:page\_facing\_up:(Fu et al.  2023)](https://arxiv.org/pdf/2302.04166.pdf) |      [:octocat:](https://github.com/jinlanfu/GPTScore)       |
 | 7    | GPTScore              | GPT3-d01                                                     |   46.1   |   22.3    |    63.9    | 44.1 | [:page\_facing\_up:(Fu et al.  2023)](https://arxiv.org/pdf/2302.04166.pdf) |      [:octocat:](https://github.com/jinlanfu/GPTScore)       |
 | 8    | G-EVAL-3.5            | GPT3.5-d03                                                   |   38.6   |   40.6    |    51.6    | 43.6 | [:page\_facing\_up:(Liu et al.  2023)](https://arxiv.org/pdf/2303.16634.pdf) |        [:octocat:](https://github.com/nlpyang/geval)         |
-| 9    | ChatGPT (Gao)         | GPT3.5-turbo                                                 |   41.6   |   30.4    |    48.9    | 40.3 | [:page\_facing\_up:(Gao et al.  2023)](https://arxiv.org/pdf/2304.02554.pdf) |                              -                               |
+| 9    | ChatGPT (Gao et al. 2023) | GPT3.5-turbo                                                 |   41.6   |   30.4    |    48.9    | 40.3 | [:page\_facing\_up:(Gao et al.  2023)](https://arxiv.org/pdf/2304.02554.pdf) |                              -                               |
 
-\* We use a modified version of FActScore `retrieval+ChatGPT` where we skip the retrieval stage and use the context documents in SummEval, QAGS-XSUM, and QAGS-CNNDM directly. As samples in theses datasets do not have "topics", we make a small modification
-    to the original FActScore prompt and do not mention `topic` when not available. See [our fork of FActScore](https://github.com/yichi-yang/FActScore) for more details.
+\* We notice that evaluating factual consistency using GPT-based models is expensive and slow. And we need human labor to interpret the response (generally text) to numerical scores. Therefore, we only benchmark on 3 popular factual consistency evaluation datasets: SummEval, QAGS-XSum and QAGS-CNNDM.
+
+*\* We use a modified version of FActScore `retrieval+ChatGPT` where we skip the retrieval stage and use the context documents in SummEval, QAGS-XSUM, and QAGS-CNNDM directly. As samples in theses datasets do not have "topics", we make a small modification to the original FActScore prompt and do not mention `topic` when not available. See [our fork of FActScore](https://github.com/yichi-yang/FActScore) for more details.
 
 # Installation
 
