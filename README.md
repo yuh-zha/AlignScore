@@ -14,10 +14,10 @@ And this is a factual consistent case:
 * **a**: The NBA season of 1975 -- 76 was the 30th season of the National Basketball Association.
 * **b**: The 1975 -- 76 season of the National Basketball Association was the 30th season of the NBA.
 
-Factual consistency evaluation can be applied to many tasks, e.g., Summarization, Paraphrase and Dialog. For example, large language models often generate hallucinations when summarizing documents. We wonder if the generated text is factual consistent to its original context.
+Factual consistency evaluation can be applied to many tasks like Summarization, Paraphrase and Dialog. For example, large language models often generate hallucinations when summarizing documents. We wonder if the generated text is factual consistent to its original context.
 
 # Leaderboards
-## Leaderboard --- compare with similar size metrics
+## Leaderboard --- compare with similar-sized metrics
 
 We list the performance of AlignScore as well as other metrics on the SummaC (includes 6 datasets) and TRUE (includes 11 datasets) benchmarks, as well as other popular factual consistency datasets (include 6 datasets). 
 
