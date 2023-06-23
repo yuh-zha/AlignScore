@@ -80,8 +80,9 @@ The AlignScore metric includes the following parts:
 
 * The chunk-sentence splitting method: The input context is splitted into chunks (contains roughly 350 tokens each) and the input claim is splitted into sentences. With the help of the alignment function, it's possible to know the alignment score between chunks and sentences. We pick the maximum alignment score for each sentence and then average these scores to get the example-level factual consistency score (AlignScore).
 
-  <img src="./alignscore_fig.png" alt="alignscore_fig" style="zoom: 25%;" />
-
+  <div align=center>
+  <img src="./alignscore_fig.png" alt="alignscore_fig" width="500px" />
+  </div>
 # Installation
 
 Our models are trained and evaluated using PyTorch 1.12.1. We recommend using this version to reproduce the results.
