@@ -72,6 +72,16 @@ We also show the performance comparison with large-language-model based metrics 
 
 *\* We use a modified version of FActScore `retrieval+ChatGPT` where we skip the retrieval stage and use the context documents in SummEval, QAGS-XSUM, and QAGS-CNNDM directly. As samples in theses datasets do not have "topics", we make a small modification to the original FActScore prompt and do not mention `topic` when not available. See [our fork of FActScore](https://github.com/yichi-yang/FActScore) for more details.
 
+# Introduction
+
+The AlignScore metric includes the following parts:
+
+* Unified information alignment function between two arbitrary text pieces: It is trained on 4.7 million training examples from 7 well-established tasks (NLI, QA, paraphrasing, fact verification, information retrieval, semantic textual similarity and summarization) 
+
+* The chunk-sentence splitting method: The input context is splitted into chunks (contains roughly 350 tokens each) and the input claim is splitted into sentences. With the help of the alignment function, it's possible to know the alignment score between chunks and sentences. We pick the maximum alignment score for each sentence and then average these scores to get the example-level factual consistency score (AlignScore).
+
+  <img src="./alignscore_fig.png" alt="alignscore_fig" style="zoom: 25%;" />
+
 # Installation
 
 Our models are trained and evaluated using PyTorch 1.12.1. We recommend using this version to reproduce the results.
@@ -159,3 +169,19 @@ The relevant arguments for evaluating AlignScore are:
 `--tasks`: which tasks to benchmark, e.g., SummEval, QAGS-CNNDM, ...
 
 For the baselines, please see `python benchmark.py --help` for details.
+
+## Evaluation datasets download
+
+The following table shows the links to the evaluation datasets mentioned in the paper
+
+| Benchmark/Dataset | Link                                                         |
+| ----------------- | ------------------------------------------------------------ |
+| SummaC            | https://github.com/tingofurro/summac                         |
+| TRUE              | https://github.com/google-research/true                      |
+| XSumFaith         | https://github.com/google-research-datasets/xsum_hallucination_annotations |
+| SummEval          | https://github.com/tanyuqian/ctc-gen-eval/blob/master/train/data/summeval.json |
+| QAGS-Xsum         | https://github.com/tanyuqian/ctc-gen-eval/blob/master/train/data/qags_xsum.json |
+| QAGS-CNNDM        | https://github.com/tanyuqian/ctc-gen-eval/blob/master/train/data/qags_cnndm.json |
+| FRANK-XSum        | https://github.com/artidoro/frank                            |
+| FRANK-CNNDM       | https://github.com/artidoro/frank                            |
+| SamSum            | https://github.com/skgabriel/GoFigure/blob/main/human_eval/samsum.jsonl |
