@@ -77,7 +77,7 @@ We also show the performance comparison with large-language-model based metrics 
 
 # Introduction
 
-The AlignScore metric includes the following parts:
+The AlignScore metric is an automatic factual consistency evaluation metric built with the following parts:
 
 * Unified information alignment function between two arbitrary text pieces: It is trained on 4.7 million training examples from 7 well-established tasks (NLI, QA, paraphrasing, fact verification, information retrieval, semantic textual similarity and summarization) 
 
@@ -86,6 +86,8 @@ The AlignScore metric includes the following parts:
   <div align=center>
   <img src="./alignscore_fig.png" alt="alignscore_fig" width="500px" />
   </div>
+
+We assume there are two inputs to the metric, namely `context` and `claim`. And the metric evaluates whether the `claim` is factual consistent with the `context`. The output of AlignScore is a single numerical value, which shows the degree of the factual consistency.
 # Installation
 
 Our models are trained and evaluated using PyTorch 1.12.1. We recommend using this version to reproduce the results.
