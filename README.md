@@ -17,11 +17,12 @@ And this is a factual consistent case:
 Factual consistency evaluation can be applied to many tasks like Summarization, Paraphrase and Dialog. For example, large language models often generate hallucinations when summarizing documents. We wonder if the generated text is factual consistent to its original context.
 
 # Leaderboards
+We introduce two leaderboards that compare AlignScore with similar-sized metrics and LLM-based metrics, respectively.
 ## Leaderboard --- compare with similar-sized metrics
 
 We list the performance of AlignScore as well as other metrics on the SummaC (includes 6 datasets) and TRUE (includes 11 datasets) benchmarks, as well as other popular factual consistency datasets (include 6 datasets). 
 
-| Rank | Metrics          | SummaC* | TRUE** | Other Datasets*** | Average | Paper | Code |
+| Rank | Metrics          | SummaC* | TRUE** | Other Datasets*** | Average**** | Paper | Code |
 | ---- | :--------------- | :-----: | :----: | :------------: | :-----: | :---: | :--: |
 | 1    | **AlignScore-large** |  88.6   |  83.8  |      49.3      |  73.9   |   [:page\_facing\_up:(Zha et al.  2023)](https://arxiv.org/pdf/2305.16739.pdf)   |  [:octocat:](https://github.com/yuh-zha/AlignScore)  |
 | 2    | **AlignScore-base**  |  87.4   |  82.5  |      44.9      |  71.6   |   [:page\_facing\_up:(Zha et al.  2023)](https://arxiv.org/pdf/2305.16739.pdf)   |  [:octocat:](https://github.com/yuh-zha/AlignScore)  |
@@ -46,11 +47,13 @@ We list the performance of AlignScore as well as other metrics on the SummaC (in
 | 21   | MNLI             |  47.9   |  60.4  |      3.1       |  37.2   | [:page\_facing\_up:(Williams et al. 2018)](https://arxiv.org/abs/1704.05426) | [:octocat:](https://github.com/nyu-mll/multiNLI) |
 | 22   | FEQA             |  48.3   |  52.2  |      -1.9      |  32.9   | [:page\_facing\_up:(Durmus et al. 2020)](https://arxiv.org/abs/2005.03754) | [:octocat:](https://github.com/esdurmus/feqa) |
 
-\*  SummaC Benchmark: [\[Paper\]](https://arxiv.org/abs/2111.09525) \| [\[Github\]](https://github.com/tingofurro/summac)
+\*  SummaC Benchmark: [\[Paper\]](https://arxiv.org/abs/2111.09525) \| [\[Github\]](https://github.com/tingofurro/summac). We report AUC ROC on the SummaC benchmark.
 
-** TRUE Benchmark: [\[Paper\]](https://arxiv.org/abs/2204.04991) \| [\[Github\]](https://github.com/google-research/true)
+** TRUE Benchmark: [\[Paper\]](https://arxiv.org/abs/2204.04991) \| [\[Github\]](https://github.com/google-research/true). We report AUC ROC on the TRUE benchmark.
 
 *** Besides the SummaC and TRUE benchmarks, we also include other popular factual consistency evaluation datasets: [XSumFaith](https://doi.org/10.18653/v1/2020.acl-main.173), [SummEval](https://doi.org/10.1162/tacl_a_00373), [QAGS-XSum](https://doi.org/10.18653/v1/2020.acl-main.450), [QAGS-CNNDM](https://doi.org/10.18653/v1/2020.acl-main.450), [FRANK-XSum](https://doi.org/10.18653/v1/2021.naacl-main.383), [FRANK-CNNDM](https://doi.org/10.18653/v1/2021.naacl-main.383) and [SamSum](https://doi.org/10.18653/v1/D19-5409). We compute the Spearman Correlation coefficients between the human annotated score and the metric predicted score, following common practice. 
+
+**** To rank these metrics, we simply compute the average performance of SummaC, TRUE and Other Datasets.
 
 ## Leaderboard --- compare with LLM-based metrics
 
