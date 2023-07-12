@@ -191,3 +191,23 @@ The following table shows the links to the evaluation datasets mentioned in the 
 | FRANK-XSum        | https://github.com/artidoro/frank                            |
 | FRANK-CNNDM       | https://github.com/artidoro/frank                            |
 | SamSum            | https://github.com/skgabriel/GoFigure/blob/main/human_eval/samsum.jsonl |
+
+# Citation
+If you find the metric and this repo helpful, please consider cite:
+```
+@inproceedings{zha-etal-2023-alignscore,
+    title = "{A}lign{S}core: Evaluating Factual Consistency with A Unified Alignment Function",
+    author = "Zha, Yuheng  and
+      Yang, Yichi  and
+      Li, Ruichen  and
+      Hu, Zhiting",
+    booktitle = "Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = jul,
+    year = "2023",
+    address = "Toronto, Canada",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.acl-long.634",
+    pages = "11328--11348",
+    abstract = "Many text generation applications require the generated text to be factually consistent with input information. Automatic evaluation of factual consistency is challenging. Previous work has developed various metrics that often depend on specific functions, such as natural language inference (NLI) or question answering (QA), trained on limited data. Those metrics thus can hardly assess diverse factual inconsistencies (e.g., contradictions, hallucinations) that occur in varying inputs/outputs (e.g., sentences, documents) from different tasks. In this paper, we propose AlignScore, a new holistic metric that applies to a variety of factual inconsistency scenarios as above. AlignScore is based on a general function of information alignment between two arbitrary text pieces. Crucially, we develop a unified training framework of the alignment function by integrating a large diversity of data sources, resulting in 4.7M training examples from 7 well-established tasks (NLI, QA, paraphrasing, fact verification, information retrieval, semantic similarity, and summarization). We conduct extensive experiments on large-scale benchmarks including 22 evaluation datasets, where 19 of the datasets were never seen in the alignment training. AlignScore achieves substantial improvement over a wide range of previous metrics. Moreover, AlignScore (355M parameters) matches or even outperforms metrics based on ChatGPT and GPT-4 that are orders of magnitude larger.",
+}
+```
