@@ -176,6 +176,9 @@ The relevant arguments for evaluating AlignScore are:
 
 For the baselines, please see `python benchmark.py --help` for details.
 
+## Training datasets download
+Most datasets are downloadable from Huggingface (refer to [`generate_training_data.py`](https://github.com/yuh-zha/AlignScore/blob/main/generate_training_data.py)). Some datasets that needed to be imported manually are now also avaialable on Huggingface (See [Issue](https://github.com/yuh-zha/AlignScore/issues/6#issuecomment-1695448614)). 
+
 ## Evaluation datasets download
 
 The following table shows the links to the evaluation datasets mentioned in the paper
