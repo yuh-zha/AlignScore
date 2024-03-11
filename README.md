@@ -4,7 +4,7 @@ This is the repository for AlignScore, a metric for automatic factual consistenc
 Yuheng Zha, Yichi Yang, Ruichen Li and Zhiting Hu \
 ACL 2023
 
-**Facutual consistency evaluation** is to evaluate whether all the information in **b** is contained in **a** (**b** does not contradict **a**). For example, this is a factual inconsistent case:
+**Factual consistency evaluation** is to evaluate whether all the information in **b** is contained in **a** (**b** does not contradict **a**). For example, this is a factual inconsistent case:
 
 * **a**: Children smiling and waving at camera.
 * **b**: The kids are frowning.
